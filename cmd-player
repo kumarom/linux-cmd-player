@@ -1,0 +1,28 @@
+#!/bin/bash
+clear
+
+function promptdir() {
+    prompt_dir="$(basename $PWD)"
+	if [ "${prompt_dir}" == "${USER}" ] ; then
+        prompt_dir='~'
+    fi
+    echo -n -e '['"${USER}@${HOSTNAME%%.*} ${prompt_dir}"']$ '
+    read -sn 1
+}
+
+function animate() {
+    for (( i=1; i<=${#@}; i++ )); do
+        str="${@:$i:1}"
+        for (( j=0; j<${#str}; j++ )); do
+            echo -n "${str:$j:1}"
+            sleep .04
+        done
+ echo -n ' '
+    done
+    echo
+    eval "${@}"
+    promptdir
+}
+
+promptdir
+
